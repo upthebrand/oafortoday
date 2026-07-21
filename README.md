@@ -62,7 +62,23 @@ publish folder (`dist`), and SPA redirects for Vue Router.
 3. Netlify should pick up settings from `netlify.toml` automatically:
    - **Build command:** `npm run build`
    - **Publish directory:** `dist`
-4. Deploy. You’ll get a URL like `https://something.netlify.app`.
+4. **Before (or right after) the first successful deploy**, add Firebase
+   environment variables under
+   **Site configuration → Environment variables** (same names as `.env.example`):
+
+   | Variable | Example |
+   |----------|---------|
+   | `VITE_FIREBASE_API_KEY` | from Firebase web config |
+   | `VITE_FIREBASE_AUTH_DOMAIN` | `your-project.firebaseapp.com` |
+   | `VITE_FIREBASE_PROJECT_ID` | `your-project` |
+   | `VITE_FIREBASE_STORAGE_BUCKET` | `your-project.appspot.com` |
+   | `VITE_FIREBASE_MESSAGING_SENDER_ID` | numeric sender id |
+   | `VITE_FIREBASE_APP_ID` | `1:…:web:…` |
+
+   Scope them to all deploy contexts (or at least Production). Then trigger a
+   new deploy — Netlify embeds these at build time. Do **not** put them in
+   `firebase-config.js` in the repo; Netlify’s secret scanner will fail the
+   build if API keys are committed.
 5. In **Firebase Console → Authentication → Settings → Authorized domains**,
    add that Netlify domain (and any custom domain you attach later). Without
    this, sign-in and Google auth will fail in production.
@@ -70,8 +86,8 @@ publish folder (`dist`), and SPA redirects for Vue Router.
 
 Redeploys happen automatically on every push to the connected branch.
 
-**Note:** Make sure `src/firebase-config.js` is filled in and committed before
-you deploy, or the live site will stay in device-only mode (no accounts).
+**Local Firebase:** copy `.env.example` to `.env`, paste your Firebase values,
+and restart `npm run dev`. `.env` is gitignored.
 
 ## Setting up Firebase (accounts + sync)
 
@@ -89,8 +105,11 @@ you deploy, or the live site will stay in device-only mode (no accounts).
    that is not ciphertext*, so plaintext can never be stored even by a buggy
    or malicious client.
 6. **Project settings → General → Your apps → Web app (</>)** — register an app
-   and copy the `firebaseConfig` object it shows you.
-7. Paste those values into `src/firebase-config.js`.
+   and copy the `firebaseConfig` values it shows you.
+7. Locally: copy `.env.example` to `.env` and paste those values into the
+   `VITE_FIREBASE_*` variables. On Netlify: add the same variables under
+   **Site configuration → Environment variables** (see
+   [Deploying to Netlify](#deploying-to-netlify)).
 
 That's it — the Account tab will offer email sign-in/sign-up and
 **Continue with Google**.

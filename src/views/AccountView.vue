@@ -282,8 +282,8 @@ async function toggleDiscreet(event) {
       <h2 class="card-title">Device-only mode</h2>
       <p class="muted">
         Your answers are saved on this device. To enable accounts and syncing,
-        add your Firebase configuration to <code>src/firebase-config.js</code>
-        (see the README for a step-by-step guide).
+        add your Firebase values to a local <code>.env</code> file
+        (see <code>.env.example</code> and the README).
       </p>
     </section>
 
