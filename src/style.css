@@ -1,0 +1,184 @@
+:root {
+  --bg: #f6f4ee;
+  --surface: #ffffff;
+  --ink: #23302d;
+  --ink-soft: #55645f;
+  --brand: #175e54;
+  --brand-dark: #0f463e;
+  --brand-soft: #e3efec;
+  --accent: #c77d3c;
+  --danger: #b3402f;
+  --ring: #2b8a7c;
+  --radius: 16px;
+  --shadow: 0 2px 12px rgba(35, 48, 45, 0.08);
+  /* System fonts only: no third-party font requests that could log the
+     user's IP address against this app. */
+  --font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Iowan Old Style', 'Palatino Nova', Palatino, 'Book Antiqua', Georgia, serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16201d;
+    --surface: #1f2b28;
+    --ink: #eef3f1;
+    --ink-soft: #a8b8b3;
+    --brand: #4fb3a3;
+    --brand-dark: #7accbf;
+    --brand-soft: #24403b;
+    --accent: #e0a468;
+    --danger: #e57862;
+    --ring: #4fb3a3;
+    --shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  line-height: 1.25;
+  margin: 0 0 0.5rem;
+}
+
+a {
+  color: var(--brand);
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ---------- shared components ---------- */
+
+.card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn-primary {
+    color: #10201c;
+  }
+}
+
+.btn-primary:hover {
+  background: var(--brand-dark);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--brand);
+  border: 2px solid var(--brand);
+}
+
+.btn-ghost:hover {
+  background: var(--brand-soft);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.field {
+  display: block;
+  margin-bottom: 18px;
+}
+
+.field-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 17px;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1.5px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  border-radius: 12px;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: 3px solid var(--ring);
+  outline-offset: 0;
+  border-color: transparent;
+}
+
+.error-text {
+  color: var(--danger);
+  font-weight: 500;
+  margin: 8px 0 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

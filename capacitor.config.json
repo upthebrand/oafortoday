@@ -1,0 +1,11 @@
+{
+  "appId": "com.oafortoday.app",
+  "appName": "OA For Today",
+  "webDir": "dist",
+  "plugins": {
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_icon",
+      "iconColor": "#175E54"
+    }
+  }
+}

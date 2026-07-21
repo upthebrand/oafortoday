@@ -1,0 +1,38 @@
+rules_version = '2';
+
+// Deploy with: firebase deploy --only firestore:rules
+// or paste into Firebase Console -> Firestore Database -> Rules.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // A user can only ever touch documents under their own uid.
+    // Everything else in the database is unreachable.
+
+    match /users/{userId}/answers/{day} {
+      allow read, delete: if isOwner(userId);
+      // Journal entries must be ciphertext-only: an encrypted payload and a
+      // timestamp. Plaintext fields are rejected by the server itself.
+      allow create, update: if isOwner(userId)
+        && request.resource.data.keys().hasOnly(['ct', 'updatedAt'])
+        && request.resource.data.ct is string
+        && request.resource.data.ct.size() < 100000
+        && request.resource.data.updatedAt is number;
+    }
+
+    match /users/{userId}/meta/crypto {
+      allow read, delete: if isOwner(userId);
+      allow create, update: if isOwner(userId)
+        && request.resource.data.keys().hasOnly(['v', 'salt', 'wrapped'])
+        && request.resource.data.salt is string
+        && request.resource.data.wrapped is string;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
